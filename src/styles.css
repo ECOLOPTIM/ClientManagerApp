@@ -1,0 +1,116 @@
+/* Container general */
+.container {
+  max-width: 100%;
+  margin: auto;
+  padding: 10px;
+}
+
+/* Tabel responsiv */
+.client-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+  display: block;
+}
+
+/* Antet tabel */
+.client-table th {
+  background-color: #f4f4f4;
+  padding: 8px;
+  text-align: left;
+  font-weight: bold;
+}
+
+/* Celule tabel */
+.client-table td {
+  padding: 6px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Input-uri editabile */
+.client-table input, 
+.client-table select {
+  width: 100%;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Buton de ștergere */
+.delete-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: darkred;
+}
+
+/* Container de căutare și filtre */
+.search-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.search-container input,
+.search-container select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Formular adăugare client */
+.add-client-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-client-form input,
+.add-client-form select {
+  flex: 1;
+  min-width: 150px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.add-client-form button {
+  background-color: green;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.add-client-form button:hover {
+  background-color: darkgreen;
+}
+
+/* Responsivitate */
+@media screen and (max-width: 768px) {
+  .client-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
+
+  .add-client-form {
+    flex-direction: column;
+  }
+}
