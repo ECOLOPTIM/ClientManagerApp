@@ -26,7 +26,7 @@ const ClientList = () => {
   const fetchClients = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/clienti");
-      setClienti(response.data); // Aici trebuie să folosești `setClienti`
+      setClienti(response.data);
     } catch (error) {
       console.error("Eroare la preluarea clienților:", error);
     }
@@ -81,9 +81,6 @@ const ClientList = () => {
             <th>Nume</th>
             <th>Email</th>
             <th>Telefon</th>
-            <th>Județ</th>
-            <th>Localitate</th>
-            <th>Strada</th>
             <th>Status</th>
             <th>Acțiuni</th>
           </tr>
@@ -97,9 +94,6 @@ const ClientList = () => {
               <td>{client.nume}</td>
               <td>{client.email}</td>
               <td>{client.telefon}</td>
-              <td>{client.judet}</td>
-              <td>{client.localitate}</td>
-              <td>{client.strada}</td>
               <td>
                 <span 
                   className="status-dot" 
@@ -120,12 +114,15 @@ const ClientList = () => {
       {showEditForm && (
         <div className="edit-form">
           <h2>Editează Client</h2>
-          <input type="text" value={editedData.nume} onChange={(e) => setEditedData({ ...editedData, nume: e.target.value })} />
-          <input type="email" value={editedData.email} onChange={(e) => setEditedData({ ...editedData, email: e.target.value })} />
-          <input type="text" value={editedData.telefon} onChange={(e) => setEditedData({ ...editedData, telefon: e.target.value })} />
-          <input type="text" value={editedData.judet} onChange={(e) => setEditedData({ ...editedData, judet: e.target.value })} />
-          <input type="text" value={editedData.localitate} onChange={(e) => setEditedData({ ...editedData, localitate: e.target.value })} />
-          <input type="text" value={editedData.strada} onChange={(e) => setEditedData({ ...editedData, strada: e.target.value })} />
+          {Object.keys(editedData).map((key) => (
+            <input 
+              key={key} 
+              type="text" 
+              value={editedData[key]} 
+              onChange={(e) => setEditedData({ ...editedData, [key]: e.target.value })} 
+              placeholder={key}
+            />
+          ))}
           <button onClick={() => handleSave(editClient)} className="btn btn-save">Salvează</button>
           <button onClick={() => setShowEditForm(false)} className="btn btn-cancel">Anulează</button>
         </div>

@@ -88,15 +88,27 @@ app.get("/api/clienti/:contract", (req, res) => {
 app.post("/api/clienti", (req, res) => {
     console.log("Date primite la server:", req.body);
     
-    const { nume, email, telefon, judet, localitate, strada, numarStrada, bloc, apartament, status } = req.body;
+    const { 
+        nume, email, telefon, status, 
+        correspondence_judet, correspondence_localitate, correspondence_strada, correspondence_numarStrada, correspondence_bloc, correspondence_apartament,
+        consumption_judet, consumption_localitate, consumption_strada, consumption_numarStrada, consumption_bloc, consumption_apartament 
+    } = req.body;
 
     if (!nume || !email || !telefon) {
         return res.status(400).json({ error: "Toate câmpurile sunt necesare!" });
     }
 
     db.run(
-        "INSERT INTO clienti (nume, email, telefon, judet, localitate, strada, numarStrada, bloc, apartament, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [nume, email, telefon, judet, localitate, strada, numarStrada, bloc, apartament, status],
+        `INSERT INTO clienti (
+            nume, email, telefon, status, 
+            correspondence_judet, correspondence_localitate, correspondence_strada, correspondence_numarStrada, correspondence_bloc, correspondence_apartament,
+            consumption_judet, consumption_localitate, consumption_strada, consumption_numarStrada, consumption_bloc, consumption_apartament
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+            nume, email, telefon, status, 
+            correspondence_judet, correspondence_localitate, correspondence_strada, correspondence_numarStrada, correspondence_bloc, correspondence_apartament,
+            consumption_judet, consumption_localitate, consumption_strada, consumption_numarStrada, consumption_bloc, consumption_apartament
+        ],
         function (err) {
             if (err) {
                 res.status(500).json({ error: err.message });
@@ -109,12 +121,25 @@ app.post("/api/clienti", (req, res) => {
 
 // Endpoint pentru editarea unui client
 app.put("/api/edit-client/:contract", (req, res) => {
-  const { nume, email, telefon, judet, localitate, strada, numarStrada, bloc, apartament, status } = req.body;
+  const { 
+    nume, email, telefon, status, 
+    correspondence_judet, correspondence_localitate, correspondence_strada, correspondence_numarStrada, correspondence_bloc, correspondence_apartament,
+    consumption_judet, consumption_localitate, consumption_strada, consumption_numarStrada, consumption_bloc, consumption_apartament 
+  } = req.body;
   const contract = req.params.contract;
 
   db.run(
-    "UPDATE clienti SET nume = ?, email = ?, telefon = ?, judet = ?, localitate = ?, strada = ?, numarStrada = ?, bloc = ?, apartament = ?, status = ? WHERE contract = ?",
-    [nume, email, telefon, judet, localitate, strada, numarStrada, bloc, apartament, status, contract],
+    `UPDATE clienti SET 
+        nume = ?, email = ?, telefon = ?, status = ?, 
+        correspondence_judet = ?, correspondence_localitate = ?, correspondence_strada = ?, correspondence_numarStrada = ?, correspondence_bloc = ?, correspondence_apartament = ?, 
+        consumption_judet = ?, consumption_localitate = ?, consumption_strada = ?, consumption_numarStrada = ?, consumption_bloc = ?, consumption_apartament = ? 
+    WHERE contract = ?`,
+    [
+      nume, email, telefon, status, 
+      correspondence_judet, correspondence_localitate, correspondence_strada, correspondence_numarStrada, correspondence_bloc, correspondence_apartament,
+      consumption_judet, consumption_localitate, consumption_strada, consumption_numarStrada, consumption_bloc, consumption_apartament,
+      contract
+    ],
     function (err) {
       if (err) {
         res.status(500).json({ error: err.message });
@@ -135,6 +160,19 @@ app.delete("/api/delete-client/:contract", (req, res) => {
       return;
     }
     res.json({ message: "Client șters cu succes!" });
+  });
+});
+
+// Endpoint pentru ștergerea unui document
+app.delete("/api/documents/:id", (req, res) => {
+  const documentId = req.params.id;
+
+  db.run("DELETE FROM documents WHERE id = ?", [documentId], function (err) {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json({ message: "Document șters cu succes!" });
   });
 });
 
